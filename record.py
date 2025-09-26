@@ -39,8 +39,6 @@ class StockRecord:
     def write_to_excel(self, file_name="res/stocks.xlsx"):
         if os.path.isfile(file_name):
             existing_df = pd.read_excel(file_name)
-        else:
-            existing_df = pd.DataFrame(columns=["交易日", "第几个交易阶段", "阶段结束后股票A价格", "阶段结束后股票B价格"])
 
         new_records = [[self.date, self.session, self.stock_a_price, self.stock_b_price]]
         new_df = pd.DataFrame(new_records, columns=existing_df.columns)
@@ -80,10 +78,7 @@ class AgentRecordDaily:
     def write_to_excel(self, file_name="res/agent_day_record.xlsx"):
         if os.path.isfile(file_name):
             existing_df = pd.read_excel(file_name)
-        else:
-            existing_df = pd.DataFrame(columns=["交易员", "交易日", "是否贷款", "贷款类型", "贷款数量",
-                                                "明日是否贷款", "明日是否买入A", "明日是否卖出A", "明日是否买入B", "明日是否卖出B"])
-
+        
         new_records = [[self.agent, self.date, self.if_loan, self.loan_type, self.loan_amount,
                         self.will_loan, self.will_buy_a, self.will_sell_a, self.will_buy_b, self.will_sell_b]]
         new_df = pd.DataFrame(new_records, columns=existing_df.columns)
@@ -112,10 +107,7 @@ class AgentRecordSession:
     def write_to_excel(self, file_name="res/agent_session_record.xlsx"):
         if os.path.isfile(file_name):
             existing_df = pd.read_excel(file_name)
-        else:
-            existing_df = pd.DataFrame(columns=["交易员", "交易日", "交易阶段", "交易前资产总额",
-                                                "交易前持有现金", "交易前持有的A股价值", "交易前持有的B股价值",
-                                                "挂单类型", "挂单股票类别", "挂单数量", "挂单价格"])
+        
 
         new_records = [[self.agent, self.date, self.session, self.proper, self.cash,
                         self.stock_a_value, self.stock_b_value, self.action_type, self.action_stock,

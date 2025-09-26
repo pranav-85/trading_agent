@@ -25,18 +25,18 @@ def handle_action(action, stock_deals, all_agents, stock, session):
                 if action["price"] == sell_action["price"]:
                     close_amount = min(action["amount"], sell_action["amount"])
                     get_agent(all_agents, action["agent"]).buy_stock(stock.name, close_amount, action["price"])
-                    if not sell_action["agent"] == -1:  # B发行
+                    if not sell_action["agent"] == -1:  
                         get_agent(all_agents, sell_action["agent"]).sell_stock(stock.name, close_amount, action["price"])
                     stock.add_session_deal({"price": action["price"], "amount": close_amount})
                     create_trade_record(action["date"], session, stock.name, action["agent"], sell_action["agent"],
                                         close_amount, action["price"])
 
-                    if action["amount"] > close_amount:  # 买单未结束，卖单结束，继续循环
+                    if action["amount"] > close_amount: 
                         log.logger.info(f"ACTION - BUY:{action['agent']}, SELL:{sell_action['agent']}, "
                                         f"STOCK:{stock.name}, PRICE:{action['price']}, AMOUNT:{close_amount}")
                         stock_deals["sell"].remove(sell_action)
                         action["amount"] -= close_amount
-                    else:  # 卖单未结束，买单结束
+                    else:  
                         log.logger.info(f"ACTION - BUY:{action['agent']}, SELL:{sell_action['agent']}, "
                                         f"STOCK:{stock.name}, PRICE:{action['price']}, AMOUNT:{close_amount}")
                         sell_action["amount"] -= close_amount
@@ -53,7 +53,7 @@ def handle_action(action, stock_deals, all_agents, stock, session):
                     create_trade_record(action["date"], session, stock.name, buy_action["agent"], action["agent"],
                                         close_amount, action["price"])
 
-                    if action["amount"] > close_amount:  # 卖单未结束，买单结束，继续循环
+                    if action["amount"] > close_amount:  
                         log.logger.info(f"ACTION - BUY:{buy_action['agent']}, SELL:{action['agent']}, "
                                         f"STOCK:{stock.name}, PRICE:{action['price']}, AMOUNT:{close_amount}")
                         stock_deals["buy"].remove(buy_action)
